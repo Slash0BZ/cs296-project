@@ -50,6 +50,7 @@ int handle_arg(int argc, char **argv, int *args, char*** targets){
 }
 
 int handle_force(const char* path, const struct stat *sb, int typeflag){
+	if (!sb) return 1;
 	if (typeflag == FTW_F){
 		remove(path);
 		return 0;
@@ -62,5 +63,7 @@ int handle_force(const char* path, const struct stat *sb, int typeflag){
 
 int force_delete(char *path){
 	int retval = ftw(path, handle_force, 20);
+	retval = ftw(path, handle_force, 20);
+	rmdir(path);
 	return retval;
 }
