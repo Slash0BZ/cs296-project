@@ -208,6 +208,7 @@ void recover_file(char *target){
 }
 
 void stash(){
+	chdir(".trash/");
 	char* cmd1 = "git add -A";
 	char* cmd2 = "git commit -m 'add'";
 	char* cmd3 = "git push";
