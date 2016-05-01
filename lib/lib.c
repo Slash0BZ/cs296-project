@@ -100,7 +100,9 @@ int handle_compress(const char* path, const struct stat *sb, int typeflag){
 	return 0;
 }
 
-int compress_delete(char *path){
+void* compress_delete(void *vpath){
+	char *path = (char*)vpath;
+	printf("Deleting: %s\n", path);
 	struct stat pathstat;
 	stat(path, &pathstat);
 	if (S_ISREG(pathstat.st_mode)){
@@ -177,10 +179,8 @@ void recover_file(char *target){
 		char *file_path = strtok(cur, "\t");
 		char *file_path_dup_1 = strdup(file_path);
 		char *file_path_dup_2 = strdup(file_path);
-		char *file_name = basename(file_path_dup_1);
 		char *file_folder = dirname(file_path_dup_2);
 		mkdir(file_folder, 0755);
-		printf("file_name: %s, file_path: %s\n", file_name, file_path);
 		char *file_zip = strtok(NULL, "\t");
 		*(file_zip + strlen(file_zip) - 1) = '\0';
 
@@ -205,5 +205,14 @@ void recover_file(char *target){
 	}
 	fclose(fp);
 	free(cur);
+}
+
+void stash(){
+	char* cmd1 = "git add -A";
+	char* cmd2 = "git commit -m 'add'";
+	char* cmd3 = "git push";
+	system(cmd1);
+	system(cmd2);
+	system(cmd3);
 }
 
