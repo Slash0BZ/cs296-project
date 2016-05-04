@@ -180,7 +180,11 @@ void recover_file(char *target){
 		char *file_path_dup_1 = strdup(file_path);
 		char *file_path_dup_2 = strdup(file_path);
 		char *file_folder = dirname(file_path_dup_2);
-		mkdir(file_folder, 0755);
+		char mkdircmd[128];
+		strcpy(mkdircmd, "mkdir -p ");
+		strcat(mkdircmd, file_folder);
+		system(mkdircmd);
+		//mkdir(file_folder, 0755);
 		char *file_zip = strtok(NULL, "\t");
 		*(file_zip + strlen(file_zip) - 1) = '\0';
 
